@@ -2,7 +2,6 @@
 
 > **Portfolio Project** — A full-stack campus issue management platform built to demonstrate professional Spring Boot architecture, real business logic, and a modern frontend.
 >
-> *This is an academic/portfolio software project and is NOT an official campus management system.*
 
 ---
 
