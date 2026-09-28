@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Issue Details — Smart Campus Issue Reporter</title>
+  <meta name="description" content="Full details, priority breakdown, and status timeline for a campus issue." />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title" id="pageTitle">Issue Details</div>
+          <div class="topbar-subtitle" id="pageSubtitle">Loading…</div>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-time" id="topbarClock"></div>
+          <button onclick="history.back()" class="btn btn-secondary btn-sm">← Back</button>
+        </div>
+      </header>
+
+      <main class="page-content">
+        <div id="detailsContainer">
+          <div class="state-container"><div class="spinner"></div></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Assign Modal -->
+  <div class="modal-overlay" id="assignModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">👤 Assign to Staff</div>
+        <button class="modal-close" id="closeAssignModal">✕</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="assignStaffName">Staff Member Name <span class="required">*</span></label>
+        <input type="text" id="assignStaffName" class="form-control" placeholder="e.g. Maintenance Team Alpha" />
+      </div>
+      <div class="modal-footer">
+        <button id="cancelAssignBtn" class="btn btn-secondary">Cancel</button>
+        <button id="confirmAssignBtn" class="btn btn-primary">Assign →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resolve Modal -->
+  <div class="modal-overlay" id="resolveModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">✅ Resolve Issue</div>
+        <button class="modal-close" id="closeResolveModal">✕</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="resolutionNotesInput">Resolution Notes <span class="required">*</span></label>
+        <textarea id="resolutionNotesInput" class="form-control" rows="4"
+                  placeholder="What was done to fix this issue?"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button id="cancelResolveBtn" class="btn btn-secondary">Cancel</button>
+        <button id="confirmResolveBtn" class="btn btn-success">✅ Mark Resolved</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/shared.js"></script>
+  <script src="/js/issue-details.js"></script>
+</body>
+</html>

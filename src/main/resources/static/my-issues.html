@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Issues — Smart Campus Issue Reporter</title>
+  <meta name="description" content="View and filter all campus issues you have reported." />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title">My Issues</div>
+          <div class="topbar-subtitle">All issues you have reported</div>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-time" id="topbarClock"></div>
+          <a href="/report.html" class="btn btn-primary">+ Report Issue</a>
+        </div>
+      </header>
+
+      <main class="page-content">
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <div class="filter-group" style="flex:2;min-width:200px">
+            <label class="filter-label">Search</label>
+            <input type="text" id="searchInput" class="form-control" placeholder="Search by code, location, or keyword…" />
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">Status</label>
+            <select id="statusFilter" class="form-control">
+              <option value="">All Statuses</option>
+              <option value="OPEN">Open</option>
+              <option value="ASSIGNED">Assigned</option>
+              <option value="IN_PROGRESS">In Progress</option>
+              <option value="RESOLVED">Resolved</option>
+              <option value="CLOSED">Closed</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">Priority</label>
+            <select id="priorityFilter" class="form-control">
+              <option value="">All Priorities</option>
+              <option value="CRITICAL">🔴 Critical</option>
+              <option value="HIGH">🟠 High</option>
+              <option value="MEDIUM">🟡 Medium</option>
+              <option value="LOW">🟢 Low</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">Category</label>
+            <select id="categoryFilter" class="form-control">
+              <option value="">All Categories</option>
+              <option value="ELECTRICAL">Electrical</option>
+              <option value="PLUMBING">Plumbing</option>
+              <option value="CLASSROOM">Classroom</option>
+              <option value="WIFI">Wi-Fi</option>
+              <option value="CLEANLINESS">Cleanliness</option>
+              <option value="SAFETY">Safety</option>
+              <option value="OTHER">Other</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:8px;align-self:flex-end">
+            <button id="searchBtn" class="btn btn-primary btn-sm">Search</button>
+            <button id="clearBtn" class="btn btn-secondary btn-sm">Clear</button>
+          </div>
+        </div>
+
+        <!-- Issues Table -->
+        <div class="card">
+          <div id="issuesContainer">
+            <div class="state-container"><div class="spinner"></div></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/shared.js"></script>
+  <script src="/js/my-issues.js"></script>
+</body>
+</html>

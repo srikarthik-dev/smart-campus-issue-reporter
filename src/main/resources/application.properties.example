@@ -1,0 +1,25 @@
+# =============================================================================
+# Smart Campus Issue Reporter — Application Configuration Template
+# =============================================================================
+# Copy this file to application.properties and fill in your local credentials.
+# application.properties is listed in .gitignore — never commit real credentials.
+# =============================================================================
+
+# Server
+server.port=8080
+
+# Database — replace placeholders with your local MySQL credentials
+spring.datasource.url=jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:smart_campus}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+spring.datasource.username=${DB_USERNAME:root}
+spring.datasource.password=${DB_PASSWORD:your_password_here}
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# JPA / Hibernate
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=false
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+
+# Logging
+logging.level.com.srikarthik.smartcampus=INFO
+logging.level.org.springframework.web=WARN

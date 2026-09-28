@@ -1,0 +1,33 @@
+# Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# IDE
+.idea/
+*.iml
+.eclipse/
+.settings/
+.classpath
+.project
+*.swp
+
+# Spring Boot local configuration (contains credentials - DO NOT COMMIT)
+src/main/resources/application.properties
+src/main/resources/application.yml
+src/main/resources/application-local.properties
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment variables
+.env
+.env.local
+.vscode/

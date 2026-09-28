@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Dashboard — Smart Campus Issue Reporter</title>
+  <meta name="description" content="View your submitted campus issues and track their resolution status." />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title" id="studentGreeting">Student Dashboard</div>
+          <div class="topbar-subtitle">Your campus issue overview</div>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-time" id="topbarClock"></div>
+          <a href="/report.html" class="btn btn-primary">+ Report Issue</a>
+        </div>
+      </header>
+
+      <main class="page-content">
+        <!-- Stats -->
+        <div class="stats-grid" id="studentStats">
+          <div class="stat-card total"><div class="stat-icon">📊</div><div class="stat-value">—</div><div class="stat-label">My Issues</div></div>
+          <div class="stat-card open"><div class="stat-icon">📋</div><div class="stat-value">—</div><div class="stat-label">Open</div></div>
+          <div class="stat-card progress"><div class="stat-icon">⚙️</div><div class="stat-value">—</div><div class="stat-label">In Progress</div></div>
+          <div class="stat-card resolved"><div class="stat-icon">✅</div><div class="stat-value">—</div><div class="stat-label">Resolved</div></div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 320px;gap:20px">
+          <!-- Recent Issues -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Recent Issues</div>
+                <div class="card-subtitle">Your latest submissions</div>
+              </div>
+              <a href="/my-issues.html" class="btn btn-secondary btn-sm">View All</a>
+            </div>
+            <div id="recentIssuesContainer">
+              <div class="state-container"><div class="spinner"></div></div>
+            </div>
+          </div>
+
+          <!-- Status breakdown -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Status Overview</div>
+            </div>
+            <div id="statusSummaryContainer">
+              <div class="state-container"><div class="spinner"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick actions -->
+        <div class="card mt-4">
+          <div class="card-title mb-3">Quick Actions</div>
+          <div class="d-flex gap-3" style="flex-wrap:wrap">
+            <a href="/report.html" class="btn btn-primary">📝 Report New Issue</a>
+            <a href="/my-issues.html" class="btn btn-secondary">📋 View All My Issues</a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/shared.js"></script>
+  <script src="/js/student.js"></script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — Smart Campus Issue Reporter</title>
+  <meta name="description" content="Administrator view of all campus issues with statistics, charts, and management tools." />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title">Admin Dashboard</div>
+          <div class="topbar-subtitle">Campus operations overview — live data</div>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-time" id="topbarClock"></div>
+          <button onclick="loadDashboard();loadAllIssues();" class="btn btn-secondary btn-sm">🔄 Refresh</button>
+        </div>
+      </header>
+
+      <main class="page-content">
+        <!-- Stats Grid -->
+        <div class="stats-grid" id="statsGrid">
+          <div class="stat-card total"><div class="stat-icon">📊</div><div class="stat-value">—</div><div class="stat-label">Total</div></div>
+          <div class="stat-card open"><div class="stat-icon">📋</div><div class="stat-value">—</div><div class="stat-label">Open</div></div>
+          <div class="stat-card progress"><div class="stat-icon">⚙️</div><div class="stat-value">—</div><div class="stat-label">In Progress</div></div>
+          <div class="stat-card resolved"><div class="stat-icon">✅</div><div class="stat-value">—</div><div class="stat-label">Resolved</div></div>
+          <div class="stat-card critical"><div class="stat-icon">🔴</div><div class="stat-value">—</div><div class="stat-label">Critical</div></div>
+          <div class="stat-card high"><div class="stat-icon">🟠</div><div class="stat-value">—</div><div class="stat-label">High Priority</div></div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="charts-grid mb-4">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Issues by Category</div>
+            </div>
+            <div class="chart-container">
+              <canvas id="categoryChart"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Issues by Status</div>
+            </div>
+            <div class="chart-container">
+              <canvas id="statusChart"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Issues by Priority</div>
+            </div>
+            <div class="chart-container">
+              <canvas id="priorityChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Operational Attention Section -->
+        <div class="card mb-4" id="attentionCard" style="border:1px solid #fecaca">
+          <div class="card-header" style="background:#fef2f2;border-bottom:1px solid #fecaca">
+            <div>
+              <div class="card-title" style="color:#dc2626">⚠️ Needs Immediate Attention</div>
+              <div class="card-subtitle">Critical priority or long-unresolved issues (7+ days)</div>
+            </div>
+          </div>
+          <div id="attentionContainer">
+             <div class="state-container" style="padding:16px"><div class="spinner"></div></div>
+          </div>
+        </div>
+
+        <!-- Issues Management Section -->
+        <div class="card" id="issues">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Issue Management</div>
+              <div class="card-subtitle">Search, filter, and act on campus issues</div>
+            </div>
+          </div>
+
+          <!-- Filter Bar -->
+          <div class="filter-bar" style="margin-bottom:16px">
+            <div class="filter-group" style="flex:2;min-width:200px">
+              <label class="filter-label">Search</label>
+              <input type="text" id="searchInput" class="form-control" placeholder="Search issues…" />
+            </div>
+            <div class="filter-group">
+              <label class="filter-label">Status</label>
+              <select id="statusFilter" class="form-control">
+                <option value="">All</option>
+                <option value="OPEN">Open</option>
+                <option value="ASSIGNED">Assigned</option>
+                <option value="IN_PROGRESS">In Progress</option>
+                <option value="RESOLVED">Resolved</option>
+                <option value="CLOSED">Closed</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label class="filter-label">Priority</label>
+              <select id="priorityFilter" class="form-control">
+                <option value="">All</option>
+                <option value="CRITICAL">Critical</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label class="filter-label">Category</label>
+              <select id="categoryFilter" class="form-control">
+                <option value="">All</option>
+                <option value="ELECTRICAL">Electrical</option>
+                <option value="PLUMBING">Plumbing</option>
+                <option value="CLASSROOM">Classroom</option>
+                <option value="WIFI">Wi-Fi</option>
+                <option value="CLEANLINESS">Cleanliness</option>
+                <option value="SAFETY">Safety</option>
+                <option value="OTHER">Other</option>
+              </select>
+            </div>
+            <div style="display:flex;gap:8px;align-self:flex-end">
+              <button id="searchBtn" class="btn btn-primary btn-sm">Search</button>
+              <button id="clearBtn" class="btn btn-secondary btn-sm">Clear</button>
+            </div>
+          </div>
+
+          <div id="issuesContainer">
+            <div class="state-container"><div class="spinner"></div></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Assign Modal -->
+  <div class="modal-overlay" id="assignModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">👤 Assign Issue</div>
+        <button class="modal-close" id="closeAssignModal">✕</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="assignStaffName">Staff Member Name <span class="required">*</span></label>
+        <input type="text" id="assignStaffName" class="form-control" placeholder="e.g. Electrician Ravi" />
+        <div class="form-hint">Enter the name of the staff member responsible for this issue.</div>
+      </div>
+      <div class="modal-footer">
+        <button id="cancelAssignBtn" class="btn btn-secondary">Cancel</button>
+        <button id="confirmAssignBtn" class="btn btn-primary">Assign →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resolve Modal -->
+  <div class="modal-overlay" id="resolveModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">✅ Resolve Issue</div>
+        <button class="modal-close" id="closeResolveModal">✕</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="resolutionNotesInput">Resolution Notes <span class="required">*</span></label>
+        <textarea id="resolutionNotesInput" class="form-control" rows="4"
+                  placeholder="Describe what was done to resolve this issue…"></textarea>
+        <div class="form-hint">Minimum 5 characters. These notes will be visible to the student who reported the issue.</div>
+      </div>
+      <div class="modal-footer">
+        <button id="cancelResolveBtn" class="btn btn-secondary">Cancel</button>
+        <button id="confirmResolveBtn" class="btn btn-success">✅ Mark Resolved</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/shared.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Report Issue — Smart Campus Issue Reporter</title>
+  <meta name="description" content="Report a campus infrastructure issue. Your issue will be automatically prioritized by our engine." />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title">Report Campus Issue</div>
+          <div class="topbar-subtitle">Your submission will be automatically prioritised by the engine</div>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-time" id="topbarClock"></div>
+        </div>
+      </header>
+
+      <main class="page-content" style="max-width:760px">
+        <div id="formAlert" style="display:none"></div>
+
+        <!-- Submission Result (hidden initially) -->
+        <div id="submissionResult" style="display:none">
+          <div class="card">
+            <div style="text-align:center;padding:12px 0 24px">
+              <div style="font-size:48px;margin-bottom:12px">🎉</div>
+              <h2 style="font-size:22px;font-weight:800;letter-spacing:-0.02em;margin-bottom:8px">Issue Reported Successfully!</h2>
+              <p class="text-muted text-small">Your issue has been logged and assigned a tracking code.</p>
+            </div>
+
+            <div style="background:var(--color-primary-light);border:1px solid rgba(79,70,229,0.2);border-radius:var(--radius-md);padding:20px;text-align:center;margin-bottom:20px">
+              <div class="text-small text-muted fw-600 mb-2">ISSUE TRACKING CODE</div>
+              <div style="font-size:26px;font-weight:800;font-family:'Courier New',monospace;color:var(--color-primary);letter-spacing:0.05em" id="resultCode">—</div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px">
+              <div style="text-align:center;padding:16px;background:var(--color-surface-2);border-radius:var(--radius-md)">
+                <div class="text-small text-muted fw-600 mb-2">CALCULATED PRIORITY</div>
+                <div id="resultPriority">—</div>
+              </div>
+              <div style="text-align:center;padding:16px;background:var(--color-surface-2);border-radius:var(--radius-md)">
+                <div class="text-small text-muted fw-600 mb-2">PRIORITY SCORE</div>
+                <div style="font-size:28px;font-weight:800;color:var(--color-primary)" id="resultScore">—</div>
+              </div>
+              <div style="padding:12px;background:var(--color-surface-2);border-radius:var(--radius-md)">
+                <div class="text-small text-muted fw-600 mb-1">STATUS</div>
+                <div id="resultStatus">—</div>
+              </div>
+              <div style="padding:12px;background:var(--color-surface-2);border-radius:var(--radius-md)">
+                <div class="text-small text-muted fw-600 mb-1">CATEGORY</div>
+                <div class="fw-600" id="resultCategory">—</div>
+              </div>
+            </div>
+
+            <div id="scoreDisplay"></div>
+
+            <div class="d-flex gap-3 mt-4">
+              <button id="reportAnotherBtn" class="btn btn-primary">📝 Report Another Issue</button>
+              <a href="/my-issues.html" class="btn btn-secondary">📋 View My Issues</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Report Form -->
+        <div id="reportFormSection">
+          <div class="alert alert-info mb-4">
+            <span class="alert-icon">🧠</span>
+            <div>
+              <div class="alert-title">Smart Priority Engine</div>
+              <div class="alert-body">Priority is automatically calculated based on safety impact, affected users, category, and issue age. You don't need to set it manually.</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Issue Report Form</div>
+                <div class="card-subtitle">All fields marked with * are required</div>
+              </div>
+            </div>
+
+            <form id="reportForm">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="reportedBy">Your Name <span class="required">*</span></label>
+                  <input type="text" id="reportedBy" class="form-control" placeholder="e.g. Arun Kumar" maxlength="100" />
+                  <div class="form-error" id="reportedByError"></div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="category">Issue Category <span class="required">*</span></label>
+                  <select id="category" class="form-control">
+                    <option value="">— Select category —</option>
+                    <option value="ELECTRICAL">⚡ Electrical</option>
+                    <option value="PLUMBING">🚰 Plumbing</option>
+                    <option value="CLASSROOM">🏫 Classroom / Furniture</option>
+                    <option value="WIFI">📶 Wi-Fi / Network</option>
+                    <option value="CLEANLINESS">🧹 Cleanliness</option>
+                    <option value="SAFETY">🦺 Safety</option>
+                    <option value="OTHER">📌 Other</option>
+                  </select>
+                  <div class="form-error" id="categoryError"></div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="location">Campus Location <span class="required">*</span></label>
+                <input type="text" id="location" class="form-control" placeholder="e.g. Block B, Computer Lab 3, Ground Floor" maxlength="200" />
+                <div class="form-hint">Be as specific as possible — include block, floor, and room number.</div>
+                <div class="form-error" id="locationError"></div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="description">Issue Description <span class="required">*</span></label>
+                <textarea id="description" class="form-control" rows="5"
+                          placeholder="Describe the issue in detail. What happened? When did it start? What is the impact?"></textarea>
+                <div class="form-hint">Minimum 10 characters. More detail helps the maintenance team respond faster.</div>
+                <div class="form-error" id="descriptionError"></div>
+              </div>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="affectedUsers">Estimated Affected Users <span class="required">*</span></label>
+                  <input type="number" id="affectedUsers" class="form-control" min="1" max="10000" placeholder="e.g. 30" />
+                  <div class="form-hint">How many students/staff are affected by this issue?</div>
+                  <div class="form-error" id="affectedUsersError"></div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Safety Risk</label>
+                  <label class="checkbox-group danger-check">
+                    <input type="checkbox" id="safetyImpact" />
+                    <div>
+                      <div class="fw-600">⚠️ This issue poses a safety risk</div>
+                      <div class="text-small text-muted">Check if there is risk of injury, electrocution, flooding, etc.</div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div style="padding-top:8px;border-top:1px solid var(--color-border);display:flex;gap:12px;align-items:center">
+                <button type="submit" class="btn btn-primary" id="submitBtn">🚀 Submit Issue Report</button>
+                <span class="text-small text-muted">Priority will be automatically calculated on submission</span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/shared.js"></script>
+  <script src="/js/report.js"></script>
+</body>
+</html>

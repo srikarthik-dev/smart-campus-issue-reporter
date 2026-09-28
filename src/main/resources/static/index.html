@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Campus Issue Reporter — Select Role</title>
+  <meta name="description" content="Smart Campus Issue Reporter — A modern platform for reporting and tracking campus infrastructure issues." />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="landing-page">
+    <div class="landing-container">
+      <div class="landing-badge">🏫 Smart Campus Issue Reporter</div>
+
+      <h1 class="landing-title">
+        Report Campus Issues<br>
+        the <span class="highlight">Smart Way</span>
+      </h1>
+
+      <p class="landing-description">
+        A modern campus operations platform that automatically prioritises issues
+        using a transparent scoring engine — ensuring critical problems are never missed.
+      </p>
+
+      <div class="role-cards">
+        <a href="/student.html" class="role-card student" onclick="setRole('student')">
+          <span class="role-card-icon">🎓</span>
+          <div class="role-card-title">Student Portal</div>
+          <div class="role-card-description">
+            Report infrastructure issues, track your submissions, and follow resolution progress.
+          </div>
+          <span class="role-card-action">Enter as Student →</span>
+        </a>
+
+        <a href="/admin.html" class="role-card admin" onclick="setRole('admin')">
+          <span class="role-card-icon">🔐</span>
+          <div class="role-card-title">Admin Dashboard</div>
+          <div class="role-card-description">
+            View real-time analytics, manage all issues, assign staff, and track resolution.
+          </div>
+          <span class="role-card-action">Enter as Admin →</span>
+        </a>
+      </div>
+
+      <div class="landing-features">
+        <div class="landing-feature"><div class="feature-dot"></div> Automatic Priority Engine</div>
+        <div class="landing-feature"><div class="feature-dot"></div> Live Dashboard Charts</div>
+        <div class="landing-feature"><div class="feature-dot"></div> Lifecycle Workflow</div>
+        <div class="landing-feature"><div class="feature-dot"></div> Real-time Statistics</div>
+        <div class="landing-feature"><div class="feature-dot"></div> Full REST API</div>
+      </div>
+
+      <div style="margin-top:32px;font-size:11px;color:rgba(255,255,255,0.2)">
+        Portfolio project — Not an official campus system
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script>
+    // Pre-select role if already set
+    const existingRole = localStorage.getItem('campus_role');
+    document.querySelectorAll('.role-card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        const isStudent = this.classList.contains('student');
+        setRole(isStudent ? 'student' : 'admin');
+      });
+    });
+  </script>
+</body>
+</html>
