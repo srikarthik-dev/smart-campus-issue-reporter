@@ -186,12 +186,37 @@ Indexes: `status`, `priority`, `category`, `reported_by`, `reported_at`
 
 ## ⚙️ Setup Instructions
 
-### Prerequisites
+### 🚀 Quick Start (Docker - Recommended)
+
+The easiest way to run the application is using Docker. This setup includes the Spring Boot application and a MySQL database.
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/srikarthik-dev/smart-campus-issue-reporter.git
+   cd smart-campus-issue-reporter
+   ```
+2. **Start the application:**
+   ```bash
+   docker compose up --build
+   ```
+3. **Access the application:**
+   Open `http://localhost:8080` in your browser. No separate frontend server needed — Spring Boot serves the static files.
+
+**Useful Docker Commands:**
+* **Run in background:** `docker compose up -d`
+* **Check container status:** `docker compose ps`
+* **View logs:** `docker compose logs app` or `docker compose logs mysql`
+* **Stop containers:** `docker compose down`
+* **Reset Database (Deletes all data!):** `docker compose down -v`
+
+### 🛠️ Local Development (Without Docker)
+
+#### Prerequisites
 - Java 17+
 - Maven 3.6+
 - MySQL 8+
 
-### 1. Database Setup
+#### 1. Database Setup
 
 ```bash
 mysql -u root -p
@@ -206,34 +231,22 @@ Optionally load sample data:
 mysql -u root -p smart_campus < database/schema.sql
 ```
 
-### 2. Configuration
+#### 2. Configuration
 
-```bash
-cp src/main/resources/application.properties.example src/main/resources/application.properties
-```
-
-Edit `application.properties` with your MySQL credentials:
+Create or modify `src/main/resources/application.properties`:
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/smart_campus?...
 spring.datasource.username=your_username
 spring.datasource.password=your_password
 ```
 
-> `application.properties` is in `.gitignore` — your credentials will never be committed.
-
-### 3. Run the Backend
+#### 3. Run the Backend
 
 ```bash
 mvn spring-boot:run
 ```
 
 The application starts at `http://localhost:8080`.
-
-### 4. Access the Frontend
-
-Open `http://localhost:8080` in your browser.
-
-No separate frontend server needed — Spring Boot serves the static files.
 
 ---
 
